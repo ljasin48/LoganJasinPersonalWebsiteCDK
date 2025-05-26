@@ -80,14 +80,14 @@ export class ServiceStack extends Stack {
     });
 
     // Pipeline to deploy changes to the website
-    const pipeline = new Pipeline(this, 'Pipeline', {
+    new Pipeline(this, 'Pipeline', {
       pipelineName: 'LoganJasinPersonalWebsitePipeline',
       stages: [
         {
           stageName: 'Source',
           actions: [
             new CodeStarConnectionsSourceAction({
-              actionName: 'GitHub_Source',
+              actionName: GITHUB_WEBSITE_REPO,
               owner: GITHUB_OWNER,
               repo: GITHUB_WEBSITE_REPO,
               branch: GITHUB_BRANCH,
@@ -100,7 +100,7 @@ export class ServiceStack extends Stack {
           stageName: 'Build',
           actions: [
             new CodeBuildAction({
-              actionName: 'Build_Website',
+              actionName: 'Website',
               project: buildProject,
               input: sourceOutput,
               outputs: [buildOutput],
@@ -111,7 +111,7 @@ export class ServiceStack extends Stack {
           stageName: 'Deploy',
           actions: [
             new S3DeployAction({
-              actionName: 'S3_Deploy',
+              actionName: 'S3',
               input: buildOutput,
               bucket: websiteBucket,
               extract: true,
