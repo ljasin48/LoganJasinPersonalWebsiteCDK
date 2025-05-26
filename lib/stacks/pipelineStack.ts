@@ -33,7 +33,6 @@ export class PipelineStack extends Stack {
       new ProdStage(this, 'ProdStage', {
         stageName: 'Prod',
         env: props.env,
-        githubConnectionArn: githubConnection.ref,
       })
     );
   }

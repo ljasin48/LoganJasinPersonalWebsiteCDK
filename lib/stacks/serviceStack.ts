@@ -8,10 +8,9 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 import { GITHUB_BRANCH, GITHUB_OWNER, GITHUB_WEBSITE_REPO } from '../config/github';
+import { CfnConnection } from 'aws-cdk-lib/aws-codestarconnections';
 
-export interface ServiceStackProps extends StackProps {
-  readonly githubConnectionArn: string;
-}
+export interface ServiceStackProps extends StackProps {}
 
 export class ServiceStack extends Stack {
   constructor(scope: Construct, id: string, props: ServiceStackProps) {
@@ -75,6 +74,10 @@ export class ServiceStack extends Stack {
 
     const sourceOutput = new Artifact();
     const buildOutput = new Artifact();
+    const githubConnection = new CfnConnection(this, 'GitHubConnection', {
+      connectionName: 'GitHubConnection',
+      providerType: 'GitHub',
+    });
 
     // Pipeline to deploy changes to the website
     const pipeline = new Pipeline(this, 'Pipeline', {
@@ -88,7 +91,7 @@ export class ServiceStack extends Stack {
               owner: GITHUB_OWNER,
               repo: GITHUB_WEBSITE_REPO,
               branch: GITHUB_BRANCH,
-              connectionArn: props.githubConnectionArn,
+              connectionArn: githubConnection.ref,
               output: sourceOutput,
             }),
           ],
@@ -120,14 +123,6 @@ export class ServiceStack extends Stack {
 
     // Grant CodeBuild permissions to write to S3
     websiteBucket.grantReadWrite(buildProject);
-
-    // Grant CodeBuild permissions to invalidate CloudFront cache
-    buildProject.addToRolePolicy(
-      new PolicyStatement({
-        actions: ['cloudfront:CreateInvalidation'],
-        resources: [`arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`],
-      })
-    );
 
     // Output the CloudFront URL
     new CfnOutput(this, 'CloudFrontURL', {
