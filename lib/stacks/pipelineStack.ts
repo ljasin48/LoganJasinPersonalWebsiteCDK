@@ -2,6 +2,7 @@ import { Stack, StackProps } from 'aws-cdk-lib';
 import { CfnConnection } from 'aws-cdk-lib/aws-codestarconnections';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { Construct } from 'constructs';
+import { GITHUB_BRANCH, GITHUB_CDK_REPO, GITHUB_OWNER } from '../config/github';
 import { ProdStage } from '../stages/prodStage';
 
 export interface PipelineStackProps extends StackProps {}
@@ -19,7 +20,7 @@ export class PipelineStack extends Stack {
       pipelineName: 'LoganJasinPersonalWebsitePipeline',
       synth: new ShellStep('Synth', {
         // Where the source can be found
-        input: CodePipelineSource.connection('ljasin48/LoganJasinPersonalWebsiteCDK', 'main', {
+        input: CodePipelineSource.connection(`${GITHUB_OWNER}/${GITHUB_CDK_REPO}`, GITHUB_BRANCH, {
           connectionArn: githubConnection.ref,
         }),
 
@@ -32,6 +33,7 @@ export class PipelineStack extends Stack {
       new ProdStage(this, 'ProdStage', {
         stageName: 'Prod',
         env: props.env,
+        githubConnectionArn: githubConnection.ref,
       })
     );
   }
