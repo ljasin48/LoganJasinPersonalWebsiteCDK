@@ -10,7 +10,7 @@ const app = new App();
 new PipelineStack(app, 'PipelineStack', {
   stackName: 'LoganJasinPersonalWebsiteCDK-PipelineStack',
   description: 'Pipeline stack for LoganJasinPersonalWebsiteCDK GitHub repo',
-  env: { account: ACCOUNT, region: REGION }
+  env: { account: ACCOUNT, region: REGION },
 });
 
 app.synth();

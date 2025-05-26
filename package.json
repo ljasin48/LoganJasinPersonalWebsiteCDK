@@ -5,7 +5,10 @@
     "logan_jasin_personal_website_cdk": "bin/app.js"
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "rm -rf cdk.out dist node_modules",
+    "build": "npm install && tsc",
+    "format": "prettier --write \"**/*.ts\"",
+    "release": "npm run clean && npm run format && npm run build",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
@@ -15,12 +18,12 @@
     "@types/node": "22.7.9",
     "aws-cdk": "2.1016.1",
     "jest": "^29.7.0",
+    "prettier": "^3.5.3",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.6.3"
   },
   "dependencies": {
-    "@aws-cdk/pipelines": "^1.203.0",
     "aws-cdk-lib": "2.196.0",
     "constructs": "^10.0.0"
   }
