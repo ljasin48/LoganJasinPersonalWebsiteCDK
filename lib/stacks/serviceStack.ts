@@ -6,14 +6,14 @@ export class ServiceStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new Repository(this, 'WebsiteRepository', {
-      repositoryName: 'LoganJasinWebsite',
-      description: 'Repository for LoganJasinWebsite',
-    });
+    // new Repository(this, 'WebsiteRepository', {
+    //   repositoryName: 'LoganJasinWebsite',
+    //   description: 'Repository for LoganJasinWebsite',
+    // });
 
-    new Repository(this, 'WebsiteCDKRepository', {
-      repositoryName: 'LoganJasinWebsiteCDK',
-      description: 'Repository for LoganJasinWebsiteCDK',
-    });
+    // new Repository(this, 'WebsiteCDKRepository', {
+    //   repositoryName: 'LoganJasinWebsiteCDK',
+    //   description: 'Repository for LoganJasinWebsiteCDK',
+    // });
   }
 }
