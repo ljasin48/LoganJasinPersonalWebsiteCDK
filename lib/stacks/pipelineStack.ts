@@ -17,7 +17,7 @@ export class PipelineStack extends Stack {
     });
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
-      pipelineName: 'LoganJasinPersonalWebsitePipeline',
+      pipelineName: 'LoganJasinPersonalWebsiteCDKPipeline',
       synth: new ShellStep('Synth', {
         // Where the source can be found
         input: CodePipelineSource.connection(`${GITHUB_OWNER}/${GITHUB_CDK_REPO}`, GITHUB_BRANCH, {
