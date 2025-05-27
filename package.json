@@ -8,7 +8,7 @@
     "clean": "rm -rf cdk.out dist node_modules",
     "build": "npm install && tsc",
     "format": "prettier --write \"**/*.ts\"",
-    "release": "npm run clean && npm run format && npm run build",
+    "release": "npm run clean && npm run format && npm run build && cdk list",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"

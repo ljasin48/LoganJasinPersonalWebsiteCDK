@@ -1,14 +1,13 @@
 import { CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
-import { Distribution, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
+import { Distribution, PriceClass, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
 import { S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { BuildSpec, LinuxBuildImage, PipelineProject } from 'aws-cdk-lib/aws-codebuild';
 import { Artifact, Pipeline } from 'aws-cdk-lib/aws-codepipeline';
 import { CodeBuildAction, CodeStarConnectionsSourceAction, S3DeployAction } from 'aws-cdk-lib/aws-codepipeline-actions';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { CfnConnection } from 'aws-cdk-lib/aws-codestarconnections';
 import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 import { GITHUB_BRANCH, GITHUB_OWNER, GITHUB_WEBSITE_REPO } from '../config/github';
-import { CfnConnection } from 'aws-cdk-lib/aws-codestarconnections';
 
 export interface ServiceStackProps extends StackProps {}
 
@@ -45,6 +44,7 @@ export class ServiceStack extends Stack {
           responsePagePath: '/index.html',
         },
       ],
+      priceClass: PriceClass.PRICE_CLASS_100,
     });
 
     // CodeBuild project for building the React app
