@@ -10,16 +10,12 @@
     "format": "prettier --write \"**/*.ts\"",
     "release": "npm run clean && npm run format && npm run build && cdk list",
     "watch": "tsc -w",
-    "test": "jest",
     "cdk": "cdk"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
     "@types/node": "22.7.9",
     "aws-cdk": "2.1016.1",
-    "jest": "^29.7.0",
     "prettier": "^3.5.3",
-    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "~5.6.3"
   },
