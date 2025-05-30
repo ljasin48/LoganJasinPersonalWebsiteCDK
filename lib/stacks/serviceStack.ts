@@ -29,7 +29,7 @@ export class ServiceStack extends Stack {
 
     // CloudFront distribution
     const distribution = new Distribution(this, 'Distribution', {
-      domainNames: ['loganjasin.com', 'wwww.loganjasin.com'],
+      domainNames: ['loganjasin.com'],
       certificate: Certificate.fromCertificateArn(
         this,
         'DomainCertificate',
