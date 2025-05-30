@@ -1,4 +1,5 @@
 import { CfnOutput, RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
+import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { Distribution, PriceClass, ViewerProtocolPolicy } from 'aws-cdk-lib/aws-cloudfront';
 import { S3StaticWebsiteOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { BuildSpec, LinuxBuildImage, PipelineProject } from 'aws-cdk-lib/aws-codebuild';
@@ -7,6 +8,7 @@ import { CodeBuildAction, CodeStarConnectionsSourceAction, S3DeployAction } from
 import { CfnConnection } from 'aws-cdk-lib/aws-codestarconnections';
 import { BlockPublicAccess, Bucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
+import { ENV } from '../config/environment';
 import { GITHUB_BRANCH, GITHUB_OWNER, GITHUB_WEBSITE_REPO } from '../config/github';
 
 export interface ServiceStackProps extends StackProps {}
@@ -27,6 +29,12 @@ export class ServiceStack extends Stack {
 
     // CloudFront distribution
     const distribution = new Distribution(this, 'Distribution', {
+      domainNames: ['loganjasin.com', 'wwww.loganjasin.com'],
+      certificate: Certificate.fromCertificateArn(
+        this,
+        'DomainCertificate',
+        `arn:aws:acm:${ENV.region}:${ENV.account}:certificate/f0540dd4-d17f-4827-9e0f-8f9ebd9e89a2`
+      ),
       defaultBehavior: {
         origin: new S3StaticWebsiteOrigin(websiteBucket),
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
